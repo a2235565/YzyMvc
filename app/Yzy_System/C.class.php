@@ -1,25 +1,41 @@
 <?php
-
+namespace Yzy_System;
 class C
 {
     private $smarty;
     protected $config,$_path;
     public function  __construct()
     {
-        //关闭错误显示
-        //ini_set('display_errors', "off");
         //设置报错日志
         $dir = MYINDEX_DIR;
         $this->config = include($dir . "/Config/Config.class.php");
         //开启报错日志
+        $this->openlog();
+//        $reflectionClass = new \ReflectionClass($this);
+//        $dir = $reflectionClass->getFileName();
+//        !(PATH_SEPARATOR==':')? $arr = explode('\\', $dir):$arr = explode('/', $dir);
+//        array_pop($arr);
+//        array_pop($arr);
+//        $dir=implode("/",$arr);
+        $dir=MYINDEX_DIR."/"."Work/".DEFAULT_DIR;
+        if(file_exists($dir . "/Config/Config.class.php"))
+        $temp=include_once($dir . "/Config/Config.class.php");
+        if(!empty($temp))
+        $this->config=array_merge($this->config,$temp);
+        !PATH_SEPARATOR==':'? $dir .= "\\app\\":$dir .= "/app/";
+        require_once MYINDEX_DIR . "/app/libs/Smarty.class.php";;
+        $this->smarty = new \Smarty();
+        return $this;
+    }
+    function openlog(){
         ini_set('display_errors',   $this->config['errodisplay']);
+        if($this->config['errodisplay']){
         error_reporting(3);
         ini_set('los_errors', 1);
         ini_set('data.timezone', 'PRC');
-        ini_set('error_log', $dir . "Log/error-" . date("Y-m-d-H",time()) . ".log");
+        ini_set('error_log', MYINDEX_DIR . "Log/error-" . date("Y-m-d-H",time()) . ".log");
         ini_set('ignore_repeated_errors', 'on');
         ini_set('ignore_repeated_source', 'on');
-
 
         if (!file_exists(MYINDEX_DIR . "/Log/")) {
             mkdir(MYINDEX_DIR . "/Log/", 0777);
@@ -45,24 +61,8 @@ return array(
              ');//向文件中写入内容;
             fclose($fopen);
         }
-
-        $reflectionClass = new \ReflectionClass($this);
-        $dir = $reflectionClass->getFileName();
-
-        !(PATH_SEPARATOR==':')? $arr = explode('\\', $dir):$arr = explode('/', $dir);
-        array_pop($arr);
-        array_pop($arr);
-        $dir=implode("/",$arr);
-        if(file_exists($dir . "/Config/Config.class.php"))
-        $temp=include_once($dir . "/Config/Config.class.php");
-        if(!empty($temp))
-        $this->config=array_merge($this->config,$temp);
-        !PATH_SEPARATOR==':'? $dir .= "\\app\\":$dir .= "/app/";
-        require_once MYINDEX_DIR . "/app/libs/Smarty.class.php";;
-        $this->smarty = new Smarty();
-        return $this;
+        }
     }
-
     function index()
     {
         echo 'hello word';
@@ -71,18 +71,17 @@ return array(
     function loadModel($class = '')
     {
         if (empty($class)) return null;
-        $reflectionClass = new \ReflectionClass($this);
-        $dir = $reflectionClass->getFileName();
-        !(PATH_SEPARATOR==':')? $arr = explode('\\', $dir):$arr = explode('/', $dir);
-        array_pop($arr);
-        array_pop($arr);
-        $dir=implode("/",$arr);
-        if($this->config['pdostart']) {
+        if($this->config['pdostart'])
             require_once "MPDO.php";
-        }
         else
             require_once "M.class.php";
-        require_once $dir . "/M/". $class . "M.class.php";
+//        $reflectionClass = new \ReflectionClass($this);
+//        $dir = $reflectionClass->getFileName();
+//        !(PATH_SEPARATOR==':')? $arr = explode('\\', $dir):$arr = explode('/', $dir);
+//        array_pop($arr);
+//        array_pop($arr);
+//        $dir=implode("/",$arr);
+//        require_once $dir . "/M/". $class . "M.class.php";
         $action = "\\Work\\".DEFAULT_DIR."\\M\\" . $class;
         $action = new $action();
         return $action;
@@ -91,9 +90,6 @@ return array(
     function loadExpansion($class = '')
     {
         if (empty($class)) return null;
-        require_once "M.class.php";
-        require_once MYINDEX_DIR . "/Work/Expansion/" . $class . ".class.php";
-
         $action = "\\Work\\Expansion\\" . $class;
         $action = new $action();
         return $action;

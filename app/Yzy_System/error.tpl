@@ -16,16 +16,15 @@ h1{ font-size: 32px; line-height: 48px; }
 .error .info .title{ margin-bottom: 3px; }
 .error .info .title h3{ color: #000; font-weight: 700; font-size: 16px; }
 .error .info .text{ line-height: 24px; }
-.copyright{ padding: 12px 48px; color: #999; }
 .copyright a{ color: #000; text-decoration: none; }
 </style>
 </head>
 <body>
 <div class="error">
-<p class="face">:(</p>
+<p class="face">(-_-)</p>
 <div class="content">
 
-<?php if(!isset($_GET['debug'])) :?>
+<?php if(isset($_GET['debug'])) :?>
 	<div class="info">
 		<div class="title">
 			<h3>错误位置</h3>

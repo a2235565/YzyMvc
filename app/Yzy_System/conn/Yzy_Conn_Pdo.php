@@ -21,7 +21,7 @@ class Yzy_Conn_Pdo{
         {
             $dsn =  $this->conf['type'].":host=".$this->conf['host'].";dbname=".$this->conf['db_name'];
             try {
-                $this->db = new PDO($dsn, $this->conf['username'], $this->conf['password'], array(PDO::ATTR_PERSISTENT => true));
+                $this->db = new \PDO($dsn, $this->conf['username'], $this->conf['password'], array(PDO::ATTR_PERSISTENT => true));
             } catch (Exception $e) {
                 die('连接数据库失败!');
             }

@@ -1,4 +1,5 @@
 <?php
+namespace Yzy_System;
 class Common_Error
 {
     /**
@@ -15,11 +16,9 @@ class Common_Error
         $errfile = str_replace(getcwd(), "", $errfile);
         $errstr = str_replace(getcwd(), "", $errstr);
         $error = '<br />';
-
         switch ($errno) {
             case E_USER_ERROR:
                 $error .= "<b>My ERROR</b> [$errno] $errstr<br />";
-                exit(1);
                 break;
             case E_USER_WARNING:
                 $error .=  "<b>My WARNING</b> [$errno] $errstr<br />";

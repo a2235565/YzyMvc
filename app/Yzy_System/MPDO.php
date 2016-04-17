@@ -1,11 +1,4 @@
 <?php
-/**
- * Created by PhpStorm.
- * User: yzy
- * Date: 2016/2/20
- * Time: 21:33
- */
-
 /*
  * code by yzy
  * test
@@ -23,33 +16,18 @@ var_dump($temp);
 $temp=I("get.");
 dump($temp);
  */
+namespace Yzy_System;
 class M{
     protected static $db;
     //构造数据库连接
 
-    function  autoload($class)
-    {
-        $file = __DIR__."/".$class . '.php';
-        if (is_file($file)) {
-            require_once($file);
-        }
-    }
-
     function __construct()
     {
-        spl_autoload_register(array('M', 'autoload'));
-        $dir = __DIR__;
-        !PATH_SEPARATOR==':'?$arr = explode('\\', $dir):$arr =explode('/', $dir);
-        array_pop($arr);
-        array_pop($arr);
-        $dir = '';
-        foreach ($arr as $v) {
-            $dir .= $v . "/";
-        }
-        $this->config = include($dir . "Config/Config.class.php");
+
+        $this->config = include(MYINDEX_DIR . "/Config/Config.class.php");
         $db = Register::get('db');
         if (!isset($db))
-            self::$db = Factory::opendb(1);
+            self::$db = \Yzy_System\Factory::opendb(1);
         return $this;
 
     }

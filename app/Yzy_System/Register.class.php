@@ -1,5 +1,5 @@
 <?php
-
+namespace Yzy_System;
 class Register
 {
     protected  static  $obj;
