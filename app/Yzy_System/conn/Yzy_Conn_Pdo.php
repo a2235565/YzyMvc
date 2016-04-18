@@ -6,7 +6,7 @@
  * Time: 21:03
  */
 namespace Yzy_Ssytem\conn;
-use PDO;
+use \PDO;
 class Yzy_Conn_Pdo{
     protected  $conf;
     protected $db;
@@ -19,7 +19,7 @@ class Yzy_Conn_Pdo{
         $this->conf=$conf;
         if(! $this->db)
         {
-            $dsn =  $this->conf['type'].":host=".$this->conf['host'].";dbname=".$this->conf['db_name'];
+            $dsn =  $this->conf['type'].":host=".$this->conf['host'].";dbname=".$this->conf['db_name'].";charset=utf8";
             try {
                 $this->db = new \PDO($dsn, $this->conf['username'], $this->conf['password'], array(PDO::ATTR_PERSISTENT => true));
             } catch (Exception $e) {

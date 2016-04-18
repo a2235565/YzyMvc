@@ -9,7 +9,9 @@ class Yzy_System
         spl_autoload_register(array("Yzy_Ssytem\\Autoload", 'autoload'));
         $me=new Yzy_System();
         $me->erro();
+        session_start();
         $me->isFirst();
+        include "function/function.php";
         $me->route();
     }
     function erro(){
@@ -28,6 +30,7 @@ class Yzy_System
             ini_set('display_errors', $conf['errodisplay']);
             header("Content-type:text/html;charset=".$conf['charType']);
         }
+        header("X-Powered-By:YzySystem");
     }
     function route(){
         if(!empty( $_GET['s'])) $action = $_GET['s'];

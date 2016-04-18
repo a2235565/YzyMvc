@@ -9,14 +9,7 @@ class C
         //设置报错日志
         $dir = MYINDEX_DIR;
         $this->config = include($dir . "/Config/Config.class.php");
-        //开启报错日志
         $this->openlog();
-//        $reflectionClass = new \ReflectionClass($this);
-//        $dir = $reflectionClass->getFileName();
-//        !(PATH_SEPARATOR==':')? $arr = explode('\\', $dir):$arr = explode('/', $dir);
-//        array_pop($arr);
-//        array_pop($arr);
-//        $dir=implode("/",$arr);
         $dir=MYINDEX_DIR."/"."Work/".DEFAULT_DIR;
         if(file_exists($dir . "/Config/Config.class.php"))
         $temp=include_once($dir . "/Config/Config.class.php");
@@ -109,15 +102,11 @@ return array(
         if (!file_exists($this->config['smarty']['cache_dir'])) {
             mkdir($this->config['smarty']['cache_dir'], 0777,true);
         }
-        $class = get_class($this);
-        !PATH_SEPARATOR==':'? $arr = explode("\\", $class):$arr = explode("/", $class);
-        $class = $arr[2];
-
-        if (!file_exists($this->config['smarty']['template_dir'] . "/" . $class)) {
-            mkdir($this->config['smarty']['template_dir'] . "/" . $class, 0777);
+        if (!file_exists($this->config['smarty']['template_dir'] . "/" )) {
+            mkdir($this->config['smarty']['template_dir'] . "/" , 0777);
         }
-        if (!file_exists($this->config['smarty']['template_dir'] . "/" . $class . "/" . $path)) {
-            $counter_file = $this->config['smarty']['template_dir'] . "/" . $class . "/" . $path;//文件名及路径,在当前目录下新建aa.txt文件
+        if (!file_exists($this->config['smarty']['template_dir']  . "/" . $path)) {
+            $counter_file = $this->config['smarty']['template_dir']  . "/" . $path;//文件名及路径,在当前目录下新建aa.txt文件
             $fopen = fopen($counter_file, 'wb ');//新建文件命令
             fputs($fopen, '<!DOCTYPE html>
             <html>
@@ -131,30 +120,13 @@ return array(
             </html>');//向文件中写入内容;
             fclose($fopen);
         }
-        $this->smarty->template_dir = $this->config['smarty']['template_dir'] . "/" . $class;    //指定模版存放目录
+        $this->smarty->template_dir = $this->config['smarty']['template_dir'] . "/" ;    //指定模版存放目录
         $this->smarty->compile_dir = $this->config['smarty']['compile_dir'];    //指定编译文件存放目录
         $this->smarty->config_dir = $this->config['smarty']['config_dir'];    //指定配置文件存放目录
         $this->smarty->cache_dir = $this->config['smarty']['cache_dir'];    //指定缓存存放目录
         $this->smarty->caching = $this->config['smarty']['caching'];    //关闭缓存（设置为true表示启用缓存）
         $this->smarty->left_delimiter = $this->config['smarty']['left_delimiter'];    //指定左标签
         $this->smarty->right_delimiter = $this->config['smarty']['right_delimiter'];    //指定右标签
-
-        $dir = $_SERVER['HTTP_HOST'];
-        $dir .= $_SERVER['PHP_SELF'];
-
-        $arr = explode('.php', $dir);
-        if (count($arr) > 1) {
-            array_pop($arr);
-            $arr = explode('/', $arr[0]);
-            array_pop($arr);
-            $dir=implode("/",$arr);
-
-        }
-        else
-        {
-            $dir=   $arr[0];
-        }
-
         $this->smarty->assign('__PUBLIC__', '/Work/Public/');
         $this->smarty->display($path);
     }

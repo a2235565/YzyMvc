@@ -20,16 +20,13 @@ namespace Yzy_System;
 class M{
     protected static $db;
     //构造数据库连接
-
     function __construct()
     {
-
         $this->config = include(MYINDEX_DIR . "/Config/Config.class.php");
         $db = Register::get('db');
         if (!isset($db))
             self::$db = \Yzy_System\Factory::opendb(1);
         return $this;
-
     }
     //启动事物
     function startTransaction()

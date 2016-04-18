@@ -13,6 +13,8 @@ class Common_Error
      */
     static public function ErrorHandler($errno, $errstr, $errfile, $errline) {
         // 为了安全起见，不暴露出真实物理路径，下面两行过滤实际路径
+        $config = include(MYINDEX_DIR . "/Config/Config.class.php");
+        if(!$config['errodisplay'])die();
         $errfile = str_replace(getcwd(), "", $errfile);
         $errstr = str_replace(getcwd(), "", $errstr);
         $error = '<br />';
@@ -26,8 +28,10 @@ class Common_Error
             case E_USER_NOTICE:
                 $error .=  "<b>My NOTICE</b> [$errno] $errstr<br />";
                 break;
+            case 8192:
+                return true;
+                break;
             default:
-                 return false;
                 $error .=  "Unknown error type: [$errno] $errstr<br />";
                 break;
         }
@@ -36,8 +40,9 @@ class Common_Error
         @ob_end_clean();
         // 包含异常页面模板
         require_once('error.tpl');
-        /* Don't execute PHP internal error handler */
+
         return true;
+
 
     }
     // 致命错误捕获
@@ -77,7 +82,7 @@ class Common_Error
             $str              = $e;
         }
         $error = '<br />';
-        $error .= "<b>My ERROR</b> [" . $str['type'] . "] " . $str['message'] . "<br />";
+        $error .= "<b>My ERROR</b> " . $str['message'] . "<br />";
         $error .= "Fatal error on line " . $str['file'] . " in file " . $str['line'] . "";
         $error .= ", PHP " . PHP_VERSION . " (" . PHP_OS . ")<br />";
         // 包含异常页面模板
