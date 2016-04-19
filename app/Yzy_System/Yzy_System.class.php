@@ -55,6 +55,7 @@ class Yzy_System
                     $fun=$action[1];
                     if(method_exists($run, $fun)){
                         $run->$action[1]();
+                        $this->lastFunction();
                     }
                     else{
                         trigger_error("未找到您的function方法",256);
@@ -65,6 +66,7 @@ class Yzy_System
                     $class="\\Work\\".DEFAULT_DIR."\\C\\Index";
                     $run = new $class();
                     $run->Index();
+                    $this->lastFunction();
                 }
             }
             else
@@ -78,7 +80,23 @@ class Yzy_System
             $class="\\Work\\".DEFAULT_DIR."\\C\\Index";
             $run = new $class();
             $run->index();
+            $this->lastFunction();
         }
+    }
+    function lastFunction(){
+        $db=\Yzy_System\Register::get("db");
+        if(!empty($db)){
+        $config = include(MYINDEX_DIR . "/Config/Config.class.php");
+        if($config['pdostart']==0){
+            mysql_close($db);
+        }
+        else{
+            $this->closePDO($db);
+        }
+        }
+    }
+    function closePDO(&$db) {
+        $db=null;
     }
     function  isFirst()
     {
@@ -106,7 +124,8 @@ return array(
     "db_name" => "test",
     "host" => "127.0.0.1",
     "username" => "root",
-    "password" => "root"
+    "password" => "root",
+    "ATTR_PERSISTENT"=>0,
 ),
 );
              ');//向文件中写入内容;

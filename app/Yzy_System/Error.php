@@ -12,6 +12,14 @@ class Common_Error
      * @return bool
      */
     static public function ErrorHandler($errno, $errstr, $errfile, $errline) {
+        $db=\Yzy_System\Register::get("db");
+        $config = include(MYINDEX_DIR . "/Config/Config.class.php");
+        if($config['pdostart']==0){
+            mysql_close($db);
+        }
+        else{
+            $db=null;
+        }
         // 为了安全起见，不暴露出真实物理路径，下面两行过滤实际路径
         $config = include(MYINDEX_DIR . "/Config/Config.class.php");
         if(!$config['errodisplay'])die();
@@ -107,8 +115,8 @@ class Common_Error
         }
         $error['trace']     =   $e->getTraceAsString();
         // 发送404信息
-        header('HTTP/1.1 404 Not Found');
-        header('Status:404 Not Found');
+//        header('HTTP/1.1 404 Not Found');
+//        header('Status:404 Not Found');
         self::halt($error);
     }
 

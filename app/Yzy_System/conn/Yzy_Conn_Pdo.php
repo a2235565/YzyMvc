@@ -21,7 +21,13 @@ class Yzy_Conn_Pdo{
         {
             $dsn =  $this->conf['type'].":host=".$this->conf['host'].";dbname=".$this->conf['db_name'].";charset=utf8";
             try {
-                $this->db = new \PDO($dsn, $this->conf['username'], $this->conf['password'], array(PDO::ATTR_PERSISTENT => true));
+                if(  !empty($this->conf['ATTR_PERSISTENT'])){
+//                    , array(PDO::ATTR_PERSISTENT => true) 开启长连接
+                    $this->db = new \PDO($dsn, $this->conf['username'], $this->conf['password'] , array(PDO::ATTR_PERSISTENT => true));
+                }
+                else{
+                $this->db = new \PDO($dsn, $this->conf['username'], $this->conf['password']);
+                }
             } catch (Exception $e) {
                 die('连接数据库失败!');
             }
