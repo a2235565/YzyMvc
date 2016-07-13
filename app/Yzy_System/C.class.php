@@ -24,11 +24,11 @@ class C
         ini_set('display_errors',   $this->config['errodisplay']);
         if($this->config['errodisplay']){
         error_reporting(3);
-        ini_set('los_errors', 1);
+        //ini_set('los_errors', 1);
         ini_set('data.timezone', 'PRC');
-        ini_set('error_log', MYINDEX_DIR . "Log/error-" . date("Y-m-d-H",time()) . ".log");
-        ini_set('ignore_repeated_errors', 'on');
-        ini_set('ignore_repeated_source', 'on');
+        //ini_set('error_log', MYINDEX_DIR . "Log/error-" . date("Y-m-d-H",time()) . ".log");
+        //ini_set('ignore_repeated_errors', 'on');
+        //ini_set('ignore_repeated_source', 'on');
 
         if (!file_exists(MYINDEX_DIR . "/Log/")) {
             mkdir(MYINDEX_DIR . "/Log/", 0777);
