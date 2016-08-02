@@ -88,7 +88,7 @@ class Yzy_System
         if(!empty($db)){
         $config = include(MYINDEX_DIR . "/Config/Config.class.php");
         if($config['pdostart']==0){
-            mysql_close($db);
+          //  mysql_close($db);
         }
         else{
             $this->closePDO($db);
